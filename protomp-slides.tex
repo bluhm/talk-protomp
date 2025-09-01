@@ -29,17 +29,126 @@
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{shapes.multipart}
 \usetikzlibrary{shapes.symbols}
+
 \author{Alexander Bluhm}
-\title{Running TCP Input in Parallel}
-\institute{genua GmbH\\ \url{bluhm@genua.de}\\ \url{bluhm@openbsd.org}}
-\date{January 2025}
-\let\Tiny\tiny
+\title{Running Network Protocols in Parallel}
+\institute{bluhm@openbsd.org}
+\date{EuroBSDCon, September 2025}
 
 \begin{document}
 
 \begin{frame}
 \titlepage
 \end{frame}
+
+\begin{frame}{Agenda}
+\setcounter{tocdepth}{1}
+\tableofcontents
+\end{frame}
+
+\section{History}
+
+\subsection{Single Processor SPL}
+\begin{frame}{Single Processor SPL, 1980s}
+\begin{tikzpicture}
+    \path (0, 0) node [draw] (ul) {User Land};
+    \path (0, -2) node [draw] (to) {Kernel Top Half};
+    \draw [->] (ul) -- (to) node[midway,right] {System Call};
+    \path (0, -4) node [draw] (bo) {Kernel Bottom Half};
+    \draw [<-] (to.south) -- (bo.north) node[midway,right] {Interrupt};
+    \path (to.south) node (tos) {} (bo.north) node (bon) {};
+    \draw [->,red] (tos.west) -- (bon.west) node[midway,left,red] {SPL};
+    \path (0, -6) node [draw] (hw) {Hardware};
+    \draw [<-] (bo) -- (hw) node[midway,right] {Handler};
+    \path (bo.south) node (bos) {} (hw.north) node (hwn) {};
+    \draw [->,red,dashed] (bos.west) -- (hwn.west) node[midway,left,red] {SPL};
+\end{tikzpicture}
+\end{frame}
+
+\subsection{Softnet AST}
+\begin{frame}{Softnet AST, 1990s}
+\begin{tikzpicture}
+    \path (0, 0) node [draw] (ul) {User Land};
+    \path (0, -1.5) node [draw] (to) {Kernel Top Half};
+    \draw [->] (ul) -- (to) node[midway,right] {System Call};
+    \path (0, -3) node [draw] (ns) {Network Stack};
+    \draw [<-] (to.south) -- (ns.north) node[midway,right] {Software Interrupt};
+    \path (to.south) node (tos) {} (ns.north) node (nsn) {};
+    \draw [->,red] (tos.west) -- (nsn.west) node[midway,left,red] {spl softnet};
+    \path (0, -4.5) node [draw] (di) {Driver Interrupt};
+    \draw [<-] (ns.south) -- (di.north) node[midway,right] {Hardware Interrupt};
+    \path (ns.south) node (nss) {} (di.north) node (din) {};
+    \draw [->,red] (nss.west) -- (din.west) node[midway,left,red] {spl net};
+    \path (0, -6) node [draw] (hw) {Hardware};
+    \draw [<-] (di) -- (hw) node[midway,right] {Interrupt Vector};
+    \path (di.south) node (dis) {} (hw.north) node (hwn) {};
+    \draw [->,red,dashed] (dis.west) -- (hwn.west) node[midway,left,red] {SPL};
+\end{tikzpicture}
+\end{frame}
+
+\subsection{Multi Processor Kernel Lock}
+\begin{frame}{Multi Processor Kernel Lock, 2000s}
+\begin{tikzpicture}
+    \path (0, 0) node [draw] (ul) {User Land};
+    \path (0, -2) node [draw] (to) {Kernel Top Half};
+    \draw [->] (ul) -- (to) node[midway,right] {System Call};
+    \path (0, -4) node [draw] (bo) {Kernel Bottom Half};
+    \draw [<-] (to.south) -- (bo.north) node[midway,right] {Interrupt};
+    \path (to.south) node (tos) {} (bo.north) node (bon) {};
+    \draw [->,red] (tos.west) -- (bon.west) node[midway,left,red] {SPL};
+    \path (0, -6) node [draw] (hw) {Hardware};
+    \draw [<-] (bo) -- (hw) node[midway,right] {Handler};
+    \path (bo.south) node (bos) {} (hw.north) node (hwn) {};
+    \draw [->,red,dashed] (bos.west) -- (hwn.west) node[midway,left,red] {SPL};
+
+    \path (7.5, 0) node [draw] (ul1) {User Land};
+    \path (7.5, -2) node [draw] (to1) {Kernel Top Half};
+    \draw [->] (ul1) -- (to1) node[midway,right] {System Call};
+
+    \draw [<->,red] (to) -- (to1) node[midway,above] {Kernel Lock};
+    \draw [<->,red] (bo.north east) -- (to1.south west)
+        node[midway,below right] {Kernel Lock};
+\end{tikzpicture}
+\end{frame}
+
+\subsection{Kernel Lock and Network Lock}
+\begin{frame}{Kernel Lock and Net Lock, 2015}
+\begin{tikzpicture}
+    \path (0, 0) node [draw] (ul) {User Land};
+    \path (0, -2) node [draw] (to) {Kernel Top Half};
+    \draw [->] (ul) -- (to) node[midway,right] {System Call};
+    \path (0, -4) node [draw] (bo) {Kernel Bottom Half};
+    \draw [<-] (to.south) -- (bo.north) node[midway,right] {Interrupt};
+    \path (to.south) node (tos) {} (bo.north) node (bon) {};
+    \draw [->,red] (tos.west) -- (bon.west) node[midway,left,red] {SPL};
+    \path (0, -6) node [draw] (hw) {Hardware};
+    \draw [<-] (bo) -- (hw) node[midway,right] {Handler};
+    \path (bo.south) node (bos) {} (hw.north) node (hwn) {};
+    \draw [->,red,dashed] (bos.west) -- (hwn.west) node[midway,left,red] {SPL};
+
+    \path (7.5, 0) node [draw] (ul1) {User Land};
+    \path (7.5, -1.5) node [draw] (to1) {Kernel Top Half};
+    \draw [->] (ul1) -- (to1) node[midway,right] {System Call};
+    \path (7.5, -3) node [draw] (ns1) {Network Stack};
+    \draw [<->] (to1.south) -- (ns1.north) node[midway,right] {Kernel Thread};
+    \path (to1.south) node (tos1) {} (ns1.north) node (nsn1) {};
+    \draw [<->,red] (tos1.west) -- (nsn1.west) node[midway,left,red] {Net Lock};
+    \path (7.5, -4.5) node [draw] (di1) {Driver Interrupt};
+    \draw [<-] (ns1.south) -- (di1.north) node[midway,right]
+	{Hardware Interrupt};
+    \path (ns1.south) node (nss1) {} (di1.north) node (din1) {};
+    \draw [->,red] (nss1.west) -- (din1.west) node[midway,left,red] {spl net};
+    \path (7.5, -6) node [draw] (hw1) {Hardware};
+    \draw [<-] (di1) -- (hw1) node[midway,right] {Vector};
+    \path (di1.south) node (dis1) {} (hw1.north) node (hwn1) {};
+    \draw [->,red,dashed] (dis1.west) -- (hwn1.west) node[midway,left,red] {SPL};
+
+    \draw [<->,red] (to) -- (to1) node[midway,below] {Kernel Lock};
+    \draw [<->,red] (bo.north east) -- (to1.south west);
+\end{tikzpicture}
+\end{frame}
+
+
 
 \section{Packet Processing}
 
