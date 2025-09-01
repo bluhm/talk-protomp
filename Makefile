@@ -1,6 +1,6 @@
 USE_PDFLATEX =	yes
-NAME =		tcpmp-slides
-TEXSRCS	=	tcpmp-slides.tex
+NAME =		protomp-slides
+TEXSRCS	=	protomp-slides.tex
 CLEAN_FILES =	${NAME:=.nav} ${NAME:=.snm} ${NAME:=.vrb} \
 		gnuplot/*.{tex,eps} kstack/*.pdf
 # make does not support : in file name, it is a variable modifier
