@@ -691,24 +691,23 @@
 
 \section{Performance}
 
-
-
-%\subsection{Variants for TCP Input}
-%\begin{frame}{Variants for TCP Input}
-%\begin{tikzpicture}
-%  \path (0,0) node [anchor=south west] {
-%    \begin{adjustbox}{width=\textwidth-0\baselineskip}
-%      \input{gnuplot/2025-01-26T17-08-00Z-tcp-0,1,2,3.tex}
-%    \end{adjustbox}
-%  };
-%  \path[red,font=\small]
-%    (3.8,1.5) node [anchor=south] {exclusive} node [anchor=center] {net lock}
-%    ++(2.4,0) node [anchor=south] {goal}
-%    ++(2.4,0) node [anchor=south] {cost of} node [anchor=center] {socket lock}
-%    ++(2.4,0) node [anchor=south] {parallel} node [anchor=center] {TCP input}
-%  ;
-%\end{tikzpicture}
-%\end{frame}
+\subsection{Variants for TCP Input}
+\begin{frame}{Variants for TCP Input}
+\begin{tikzpicture}
+  \path (0,0) node [anchor=south west] {
+    \begin{adjustbox}{width=\textwidth-0\baselineskip}
+      \input{gnuplot/2025-01-26T17-08-00Z-tcp-0,1,2,3.tex}
+    \end{adjustbox}
+  };
+  \path[red,font=\small]
+    (3.8,1.5) node [anchor=south] {exclusive} node [anchor=center] {net lock}
+    ++(2.4,0) node [anchor=south] {parallel} node [anchor=center] {TCP input}
+	node [anchor=north] {combined lock}
+    ++(2.4,0) node [anchor=south] {cost of} node [anchor=center] {socket lock}
+    ++(2.4,0) node [anchor=south] {parallel} node [anchor=center] {TCP input}
+  ;
+\end{tikzpicture}
+\end{frame}
 
 %\subsection{Exclusive TCP Receive Single Stream}
 %\begin{frame}{Exclusive TCP Receive Single Stream}
