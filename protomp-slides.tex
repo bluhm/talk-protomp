@@ -157,7 +157,7 @@
 \begin{tikzpicture}
     \path (0, 0) node [draw] (ul) {User Land};
     \path (0, -2) node [draw] (to) {Kernel Top Half};
-    \draw [->] (ul) -- (to) node[midway] {};
+    \draw [->] (ul) -- (to) node[midway] {System Call};
     \path (0, -4) node [draw] (bo) {Bottom Half};
     \draw [<-] (to.south) -- (bo.north) node[midway,right] {Interrupt};
     \path (to.south) node (tos) {} (bo.north) node (bon) {};
@@ -170,7 +170,7 @@
 
     \path (4, 0) node [draw] (ul1) {User Land};
     \path (4, -1.5) node [draw] (to1) {Kernel Top Half};
-    \draw [->] (ul1) -- (to1) node[midway,right] {System Call};
+    \draw [->] (ul1) -- (to1) node[midway] {Network Call};
     \path (4, -3) node [draw] (ns1) {Network Stack};
     \draw [<->] (to1.south) -- (ns1.north) node[midway,right] {};
     \path (to1.south) node (tos1) {} (ns1.north) node (nsn1) {};
@@ -189,7 +189,7 @@
 
     \path (10, 0) node [draw] (ul2) {User Land};
     \path (10, -1.5) node [draw] (to2) {Kernel Top Half};
-    \draw [->] (ul2) -- (to2) node[midway] {};
+    \draw [->] (ul2) -- (to2) node[midway] {Network Call};
     \path (10, -3) node [draw] (ns2) {Network Stack};
     \draw [->] (to2.south) -- (ns2.north) node[midway,right] {};
     \path (to2.south) node (tos2) {} (ns2.north) node (nsn2) {};
@@ -240,6 +240,52 @@
     \draw [->,red] (dis1.west) -- (hwn1.west) node[midway,left,red] {MSIX};
 
     \draw [<->,red] (to) -- (to1) node[midway,below] {Net Lock};
+    \draw [<->,red] (ns.north east) -- (to1.south west) node[midway] {};
+    \draw [<->,red] (to.south east) -- (ns1.north west) node[midway] {};
+    \draw [<->,red] (ns) -- (ns1) node[midway,above] {Net Lock};
+    \draw [-] (hw.north west) -- (hw1.north east) -- (hw1.south east) --
+	(hw.south west) -- (hw.north west);
+    \path (hw) -- (hw1) node[midway] {Hardware};
+\end{tikzpicture}
+\end{frame}
+
+\subsection{Unlock Socket Receive Send}
+\begin{frame}{Unlock Socket Receive and Send, 2022 and 2024}
+\begin{tikzpicture}
+    \path (0, 0) node [draw] (ul) {User Land};
+    \path (0, -1.5) node [draw] (to) {Kernel Top Half};
+    \draw [->] (ul) -- (to) node[midway,right] {System Call};
+    \path (0, -3) node [draw] (ns) {Network Stack};
+    \draw [->] (to.south) -- (ns.north) node[midway,right] {};
+    \path (to.south) node (tos) {} (ns.north) node (nsn) {};
+    \draw [<->,red] (tos.west) -- (nsn.west) node[midway,right,red] {Net Lock};
+    \path (0, -4.5) node [draw] (di) {Driver Interrupt};
+    \draw [<-] (ns.south) -- (di.north) node[midway,right]
+	{Hardware Interrupt};
+    \path (ns.south) node (nss) {} (di.north) node (din) {};
+    \draw [<->,red] (nss.west) -- (din.west) node[midway,left,red] {Mutex};
+    \path (0, -6) node (hw) {Queue};
+    \draw [<-] (di) -- (hw) node[midway,right] {Per CPU Vector};
+    \path (di.south) node (dis) {} (hw.north) node (hwn) {};
+    \draw [->,red] (dis.west) -- (hwn.west) node[midway,left,red] {MSIX};
+
+    \path (7.5, 0) node [draw] (ul1) {User Land};
+    \path (7.5, -1.5) node [draw] (to1) {Kernel Top Half};
+    \draw [->] (ul1) -- (to1) node[midway,right] {System Call};
+    \path (7.5, -3) node [draw] (ns1) {Network Stack};
+    \draw [<->] (to1.south) -- (ns1.north) node[midway,right] {Kernel Thread};
+    \path (to1.south) node (tos1) {} (ns1.north) node (nsn1) {};
+    \draw [<->,red] (tos1.west) -- (nsn1.west) node[midway,left,red] {Net Lock};
+    \path (7.5, -4.5) node [draw] (di1) {Driver Interrupt};
+    \draw [<-] (ns1.south) -- (di1.north) node[midway,right]
+	{Hardware Interrupt};
+    \path (ns1.south) node (nss1) {} (di1.north) node (din1) {};
+    \draw [<->,red] (nss1.west) -- (din1.west) node[midway,left,red] {Mutex};
+    \path (7.5, -6) node (hw1) {Queue};
+    \draw [<-] (di1) -- (hw1) node[midway,right] {Per CPU Vector};
+    \path (di1.south) node (dis1) {} (hw1.north) node (hwn1) {};
+    \draw [->,red] (dis1.west) -- (hwn1.west) node[midway,left,red] {MSIX};
+
     \draw [<->,red] (ns.north east) -- (to1.south west) node[midway] {};
     \draw [<->,red] (to.south east) -- (ns1.north west) node[midway] {};
     \draw [<->,red] (ns) -- (ns1) node[midway,above] {Net Lock};
