@@ -11,10 +11,3 @@ timeouts which require other locking strategies than UDP.  Multiple
 input and output queues in the network drivers allow to distribute
 packets over CPUs.  Measurements make this effect visible and help
 to identify bottlenecks.
-
-Alexander Bluhm is an OpenBSD developer since 2007.  His main area
-of work is the network stack.  In the recent years focus was on
-multi processor performance.  He is employed at genua, a German
-firewall manufacturer, who wants to speed up its OpenBSD based
-products.  Other areas of interest are the errata process, maintaining
-Perl ports, and fixing all kinds of bugs.
