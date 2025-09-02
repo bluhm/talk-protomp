@@ -2,38 +2,53 @@ USE_PDFLATEX =	yes
 NAME =		protomp-slides
 TEXSRCS	=	protomp-slides.tex
 CLEAN_FILES =	${NAME:=.nav} ${NAME:=.snm} ${NAME:=.vrb} \
-		gnuplot/*.{tex,eps} kstack/*.pdf
+		gnuplot/*.{tex,eps,pdf} kstack/*.pdf
 # make does not support : in file name, it is a variable modifier
 # latex does not support . in file name, it is a suffix
 DATE =		2025-01-26T17:08:00Z
 CVSDATE =	2025-01-26T00:00:00Z
+RELEASE =	7.7
 GNUPLOTS = \
+    . tcp 0,1,2,3 - - - - \
     ${DATE} tcp 0,1,2,3 - - - - \
+    ${RELEASE} tcp 0,1,2,3 - - - - \
 
-results/${DATE:C/[:.]/-/g}/tcp.data:
+.for p in tcp
+.for d in . ${DATE} ${RELEASE}
+
+.if "$d" == "."
+RESULTDIR_${d:C/[:.]/-/g} =	results
+.else
+RESULTDIR_${d:C/[:.]/-/g} =	results/${d:C/[:.]/-/g}
+.endif
+
+${RESULTDIR_${d:C/[:.]/-/g}}/$p.data:
 	rm -f $@
-	mkdir -p results/${DATE}
-	cd results/${DATE} && \
-	    ftp http://bluhm.genua.de/perform/results/${DATE}/gnuplot/tcp.data
-	ln -s ${DATE} results/${DATE:C/[:.]/-/g}
+	mkdir -p results/$d ${RESULTDIR_${d:C/[:.]/-/g}}
+	cd results/$d && \
+	    ftp http://bluhm.genua.de/perform/results/$d/gnuplot/$p.data
+	[ -e $@ ] || ln -s ../$d/$p.data $@
+
+.endfor
+.endfor
 
 .for d p n x X y Y in ${GNUPLOTS}
 
-#TEXSRCS +=	gnuplot/${d:C/[:.]/-/g}-$p${n:N-:S/^/-/}.tex
+TEXSRCS +=	gnuplot/${d:C/[:.]/-/g}-$p${n:N-:S/^/-/}.tex
 
 .PATH: bin
 
 gnuplot/${d:C/[:.]/-/g}-$p${n:N-:S/^/-/}.tex: \
     gnuplot.pl Buildquirks.pm Html.pm Testvars.pm plot.gp \
-    results/${DATE:C/[:.]/-/g}/tcp.data
+    ${RESULTDIR_${d:C/[:.]/-/g}}/$p.data
 	rm -f $@
 	mkdir -p gnuplot
-	perl bin/gnuplot.pl -L -d ${DATE} \
-	    ${d:M*-*:S/^/-d /} ${d:M*.*:S/^/-r /} \
-	    -p $p ${n:N-:S/^/-N /} \
+	perl bin/gnuplot.pl -L \
+	    ${d:M*-*:S/^/-d /} ${d:M*.[0-9]:S/^/-r /} \
+	    -p $p ${n:N-:S/^/-N /} -Q \
 	    ${x:N-:S/^/-x /} ${X:N-:S/^/-X /} \
 	    ${y:N-:S/^/-y /} ${Y:N-:S/^/-Y /}
-	ln -s $d-$p${n:N-:S/^/-/}.tex $@
+	ln -s ${d:N.:S/$/-/}$p${n:N-:S/^/-/}.tex $@
 
 .endfor
 

@@ -25,6 +25,7 @@
 \usepackage{upquote}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
+\usepackage{calc}
 \usetikzlibrary{shapes.arrows}
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{shapes.multipart}
@@ -372,6 +373,31 @@
 
     \draw [<->,red] (pr) -- (pr1) node[midway,above] {Per Socket Lock};
     \draw [->] (ip.east) -- (ip1.west) node[midway, above] {IP Forward};
+\end{tikzpicture}
+\end{frame}
+
+\subsection{TCP Performance Testing for 7 Years}
+\begin{frame}{TCP Performance Testing for 7 Years}
+\begin{tikzpicture}
+  \path (0,0) node [anchor=south west] {
+    \begin{adjustbox}{width=\textwidth-0\baselineskip}
+      \input{gnuplot/tcp-0,1,2,3.tex}
+    \end{adjustbox}
+  };
+  \path[red,font=\small]
+    (2.3,1.5) node [anchor=south] {meltdown} node [anchor=center] {spectre}
+    (4.8,1.1) node [anchor=south] {buggy} node [anchor=center] {timer}
+    (6.8,3.5) node [anchor=south] {delay} node [anchor=center] {second}
+	node [anchor=north] {ACK}
+    (9,3) node [anchor=south] {parallel} node [anchor=center] {IP input}
+    (10.5,3) node [anchor=south] {TSO}
+    (11.5,1.8) node [anchor=south] {fine} node [anchor=center] {grained}
+	node [anchor=north] {locking}
+    (12.8,3.3) node [anchor=south] {parallel} node [anchor=center] {TCP output}
+    (13.2,1.6) node [anchor=south] {per} node [anchor=center] {packet}
+	node [anchor=north] {lock}
+    (13.5,5.8) node [anchor=south] {parallel} node [anchor=center] {TCP input}
+  ;
 \end{tikzpicture}
 \end{frame}
 
