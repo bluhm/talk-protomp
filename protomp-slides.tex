@@ -401,8 +401,6 @@
 \end{tikzpicture}
 \end{frame}
 
-
-
 \section{Packet Processing}
 
 \subsection{Network Protocol Stack}
@@ -470,7 +468,7 @@
 \end{frame}
 
 \subsection{Towards Parallel Processing}
-\begin{frame}{Towards Parallel Processing}
+\begin{frame}{Towards Parallel Processing, 2024}
 \begin{tikzpicture}
   \draw (0,0)
     node (idd) [right] {device driver} ++(.1,.6)
@@ -549,8 +547,82 @@
 \end{tikzpicture}
 \end{frame}
 
+\subsection{Parallel UDP Input}
+\begin{frame}{Parallel UDP Input, 2024}
+\begin{tikzpicture}
+  \draw (0,0)
+    node (idd) [right] {device driver} ++(.1,.6)
+    rectangle ++(.4,.4) rectangle ++(.4,-.4)
+    rectangle ++(.4,.4) rectangle ++(.4,-.4) ++(0,.2)
+    node (iq) [right] {input queue} ++(-.5,.8)
+    node (ii) [right] {ip\_input()} ++(.1,.8)
+    node (pq) [left] {protocol queue} ++(0,-.2)
+    rectangle ++(.4,.4) rectangle ++(.4,-.4)
+    rectangle ++(.4,.4) rectangle ++(.4,-.4) ++(-.5,1.0)
+    node (ti) [right] {tcp\_input()} ++(.1,.8)
+    node (rb) [left] {receive buffer} ++(0,-.2)
+    rectangle ++(.4,.4) rectangle ++(.4,-.4)
+    rectangle ++(.4,.4) rectangle ++(.4,-.4) ++(-.5,1.0)
+    node (iso) [right] {socket} ++(3.2,0)
+    ;
+  \path (node cs:name=idd,anchor=west) +(.3+1*.4,.3) coordinate (iddo) {};
+  \path (node cs:name=iq,anchor=west) +(-.2-2*.4,0) coordinate (iqi) {};
+  \draw[->,double] (iddo) -- (iqi);
+  \path (node cs:name=iq,anchor=west) +(-.2,0) coordinate (iqo) {};
+  \path (node cs:name=ii,anchor=west) +(.3,-.3) coordinate (iii) {};
+  \draw[->,double] (iqo) -- (iii);
+  \path (node cs:name=ii,anchor=west) +(.3+1*.4,.3) coordinate (iio) {};
+  \path (node cs:name=pq,anchor=east) +(.2+1*.4,0) coordinate (pqi) {};
+  \draw[->,double] (iio) -- (pqi);
+  \path (node cs:name=pq,anchor=east) +(.2+3*.4,0) coordinate (pqo) {};
+  \path (node cs:name=ti,anchor=west) +(.3,-.3) coordinate (tii) {};
+  \draw[->] (pqo) -- (tii);
+  \path (node cs:name=ti,anchor=west) +(.3+1*.4,.3) coordinate (iti) {};
+  \path (node cs:name=rb,anchor=east) +(.2+1*.4,0) coordinate (rbi) {};
+  \draw[->] (iti) -- (rbi);
+  \path (node cs:name=rb,anchor=east) +(.2+3*.4,0) coordinate (rbo) {};
+  \path (node cs:name=iso,anchor=west) +(.3,-.3) coordinate (isoi) {};
+  \draw[->,double] (rbo) -- (isoi);
+
+  \draw[red] (node cs:name=ti,anchor=west) node [left] {exclusive net lock};
+  \draw[red] (node cs:name=ii,anchor=west) node [left] {shared net lock};
+
+  \draw (7,0)
+    node (udd) [right] {device driver} ++(.1,.6)
+    rectangle ++(.4,.4) rectangle ++(.4,-.4)
+    rectangle ++(.4,.4) rectangle ++(.4,-.4) ++(0,.2)
+    node (uiq) [right] {input queue} ++(-.5,.8)
+    node (uii) [right] {ip\_input()} ++(0,1.6)
+    node (ui) [right] {udp\_input()} ++(.1,.8)
+    node (urb) [left] {receive buffer} ++(0,-.2)
+    rectangle ++(.4,.4) rectangle ++(.4,-.4)
+    rectangle ++(.4,.4) rectangle ++(.4,-.4) ++(-.5,1.0)
+    node (uso) [right] {socket} ++(3.2,0)
+    ;
+  \path (node cs:name=udd,anchor=west) +(.3+1*.4,.3) coordinate (uddo) {};
+  \path (node cs:name=uiq,anchor=west) +(-.2-2*.4,0) coordinate (uiqi) {};
+  \draw[->,double] (uddo) -- (uiqi);
+  \path (node cs:name=uiq,anchor=west) +(-.2,0) coordinate (uiqo) {};
+  \path (node cs:name=uii,anchor=west) +(.3,-.3) coordinate (uiii) {};
+  \draw[->,double] (uiqo) -- (uiii);
+  \path (node cs:name=uii,anchor=west) +(.3,.3) coordinate (uiio) {};
+  \path (node cs:name=ui,anchor=west) +(.3,-.3) coordinate (uii) {};
+  \draw[->,double] (uiio) -- (uii) node [midway] (upi) {};
+  \path (node cs:name=ui,anchor=west) +(.3+1*.4,.3) coordinate (iui) {};
+  \path (node cs:name=urb,anchor=east) +(.2+1*.4,0) coordinate (urbi) {};
+  \draw[->,double] (iui) -- (urbi);
+  \path (node cs:name=urb,anchor=east) +(.2+3*.4,0) coordinate (urbo) {};
+  \path (node cs:name=uso,anchor=west) +(.3,-.3) coordinate (usoi) {};
+  \draw[->,double] (urbo) -- (usoi);
+
+  \draw[red] (node cs:name=ti,anchor=west) node [left] {exclusive net lock};
+  \draw[red] (node cs:name=ii,anchor=west) node [left] {shared net lock};
+  \draw[red] (node cs:name=upi,anchor=west) node [left] {shared net lock};
+\end{tikzpicture}
+\end{frame}
+
 \subsection{Parallel TCP Input}
-\begin{frame}{Parallel TCP Input}
+\begin{frame}{Parallel TCP Input, 2025}
 \begin{tikzpicture}
   \draw (0,0)
     node (idd) [right] {device driver} ++(.1,.6)
@@ -618,6 +690,8 @@
 \end{frame}
 
 \section{Performance}
+
+
 
 %\subsection{Variants for TCP Input}
 %\begin{frame}{Variants for TCP Input}
