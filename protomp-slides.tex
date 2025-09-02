@@ -313,7 +313,7 @@
     \draw [<-] (dr) -- (hw) node[near end,right] {Per CPU};
 
     \path (7.5, -.5) node (ul1) {};
-    \path (7.5, -1.5) node [draw] (so1) {Socket};
+    \path (7.5, -1.5) node [draw] (so1) {Socket Layer};
     \draw [->] (ul1) -- (so1) node[near start,right] {Send};
     \path (7.5, -3) node [draw] (pr1) {TCP/UDP Protocol};
     \draw [->] (to1.south) -- (pr1.north) node[midway,right] {};
@@ -331,6 +331,46 @@
     \draw [<->,red] (pr.north east) -- (so1.south west) node[midway] {};
     \draw [<->,red] (so.south east) -- (pr1.north west) node[midway] {};
     \draw [<->,red] (pr) -- (pr1) node[midway,above] {Net Lock};
+    \draw [->] (ip.east) -- (ip1.west) node[midway, above] {IP Forward};
+\end{tikzpicture}
+\end{frame}
+
+\subsection{Parallel UDP and TCP}
+\begin{frame}{Parallel UDP and TCP, 2024 and 2025}
+\begin{tikzpicture}
+    \path (0, -.5) node (ul) {};
+    \path (0, -1.5) node [draw] (so) {Socket};
+    \draw [->] (ul) -- (so) node[near start,right] {Receive};
+    \path (0, -3) node [draw] (pr) {TCP/UDP};
+    \draw [<-] (so.south) -- (pr.north) node[midway,right] {};
+    \path (so.south) node (sos) {} (pr.north) node (prn) {};
+    \draw [<->,red] (sos.west) -- (prn.west) node[midway,left,red] {Receive}
+	node[midway,right,red] {Buffer Lock};
+    \path (0, -4.5) node [draw] (ip) {IP Stack};
+    \draw [<-] (pr.south) -- (ip.north) node[midway,right] {};
+    \path (0, -6) node [draw] (dr) {Driver};
+    \draw [<-] (ip) -- (dr) node[midway,right] {Interrupt};
+    \path (0, -7.0) node  (hw) {};
+    \draw [<-] (dr) -- (hw) node[near end,right] {Per CPU};
+
+    \path (7.5, -.5) node (ul1) {};
+    \path (7.5, -1.5) node [draw] (so1) {Socket Layer};
+    \draw [->] (ul1) -- (so1) node[near start,right] {Send};
+    \path (7.5, -3) node [draw] (pr1) {TCP/UDP};
+    \path (9.5, -3) node [right] {8 Threads};
+    \draw [->] (to1.south) -- (pr1.north) node[midway,right] {};
+    \path (so1.south) node (sos1) {} (pr1.north) node (prn1) {};
+    \draw [<->,red] (sos1.west) -- (prn1.west) node[midway,left,red] {Send}
+	node[midway,right,red] {Buffer Lock};
+    \path (7.5, -4.5) node [draw] (ip1) {IP Stack};
+    \draw [->] (pr1.south) -- (ip1.north) node[midway,right] {};
+    \path (7.5, -6) node [draw] (dr1) {Driver};
+    \path (9.5, -6) node [right] {8 Queues};
+    \draw [<-] (ip1.south) -- (dr1.north) node[midway,right] {Interrupt};
+    \path (7.5, -7.0) node (hw1) {};
+    \draw [<-] (dr1) -- (hw1) node[near end,right] {Per CPU};
+
+    \draw [<->,red] (pr) -- (pr1) node[midway,above] {Per Socket Lock};
     \draw [->] (ip.east) -- (ip1.west) node[midway, above] {IP Forward};
 \end{tikzpicture}
 \end{frame}
