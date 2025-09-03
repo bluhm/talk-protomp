@@ -4,7 +4,7 @@ TEXSRCS	=	protomp-slides.tex
 CLEAN_FILES =	${NAME:=.nav} ${NAME:=.snm} ${NAME:=.vrb} \
 		gnuplot/*.{tex,eps,pdf} kstack/*.pdf
 # make does not support : in file name, it is a variable modifier
-# latex does not support . in file name, it is a suffix
+# latex does not support . in file name, it is a suffix, \usepackage{grffile}
 DATE =		2025-01-26T17:08:00Z
 CVSDATE =	2025-01-26T00:00:00Z
 RELEASE =	7.7
@@ -61,7 +61,7 @@ CMD_rev_single =	iperf3_-c10.3.45.35_-w1m_-t10_-R
 .for d in fwd rev
 .for n in parallel single
 
-#OTHER +=		kstack/${p:C/[:.]/-/g}-$d-$n.pdf
+OTHER +=		kstack/${p:C/[:.]/-/g}-$d-$n.eps
 
 kstack/${p:C/[:.]/-/g}-$d-$n.svg:
 	rm -f $@
@@ -73,6 +73,9 @@ kstack/${p:C/[:.]/-/g}-$d-$n.svg:
 
 kstack/${p:C/[:.]/-/g}-$d-$n.pdf: kstack/${p:C/[:.]/-/g}-$d-$n.svg
 	cd ${@:H} && inkscape --export-type=pdf ${p:C/[:.]/-/g}-$d-$n.svg
+
+kstack/${p:C/[:.]/-/g}-$d-$n.eps: kstack/${p:C/[:.]/-/g}-$d-$n.svg
+	cd ${@:H} && inkscape --export-type=eps ${p:C/[:.]/-/g}-$d-$n.svg
 
 .endfor
 .endfor
