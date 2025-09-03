@@ -2,7 +2,7 @@ USE_PDFLATEX =	yes
 NAME =		protomp-slides
 TEXSRCS	=	protomp-slides.tex
 CLEAN_FILES =	${NAME:=.nav} ${NAME:=.snm} ${NAME:=.vrb} \
-		gnuplot/*.{tex,eps,pdf} kstack/*.pdf
+		gnuplot/*.{tex,eps,pdf} kstack/*.pdf images/*.eps
 # make does not support : in file name, it is a variable modifier
 # latex does not support . in file name, it is a suffix, \usepackage{grffile}
 DATE =		2025-01-26T17:08:00Z
@@ -61,7 +61,7 @@ CMD_rev_single =	iperf3_-c10.3.45.35_-w1m_-t10_-R
 .for d in fwd rev
 .for n in parallel single
 
-OTHER +=		kstack/${p:C/[:.]/-/g}-$d-$n.eps
+OTHER +=		kstack/${p:C/[:.]/-/g}-$d-$n.pdf
 
 kstack/${p:C/[:.]/-/g}-$d-$n.svg:
 	rm -f $@
@@ -79,6 +79,18 @@ kstack/${p:C/[:.]/-/g}-$d-$n.eps: kstack/${p:C/[:.]/-/g}-$d-$n.svg
 
 .endfor
 .endfor
+.endfor
+
+.for i in obsdlab-perform-ot14 obsdlab-netlink-ot41
+
+OTHER +=		${i:S,^,images/,:S,$,.pdf,}
+
+images/$i.pdf: images/$i.jpg
+	convert images/$i.jpg images/$i.pdf 
+
+images/$i.eps: images/$i.jpg
+	convert images/$i.jpg images/$i.eps 
+
 .endfor
 
 .include </usr/local/share/latex-mk/latex.mk>

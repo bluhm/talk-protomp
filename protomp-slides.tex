@@ -377,6 +377,11 @@
 \end{tikzpicture}
 \end{frame}
 
+\subsection{Good Mature Hardware}
+\begin{frame}{Good Mature Hardware, from 2011}
+    \includegraphics[height=0.8\textheight]{images/obsdlab-perform-ot14.pdf}
+\end{frame}
+
 \subsection{TCP Performance Testing for 7 Years}
 \begin{frame}{TCP Performance Testing for 7 Years}
 \begin{tikzpicture}
@@ -404,6 +409,7 @@
 
 \section{Packet Processing}
 
+\subsection{Network Protocol Stack}
 \subsection{Network Protocol Stack}
 \begin{frame}{Network Protocol Stack}
 \begin{tikzpicture}
@@ -694,7 +700,7 @@
 
 \subsection{Exclusive TCP Receive Single Stream}
 \begin{frame}{Exclusive TCP Receive Single Stream}
-    \includegraphics[width=\textwidth]{kstack/sys-tcp-input-solock-rev-single.eps}
+    \includegraphics[width=\textwidth]{kstack/sys-tcp-input-solock-rev-single.pdf}
 \end{frame}
 
 \subsection{Parallel TCP Receive Single Stream}
@@ -702,7 +708,7 @@
 \begin{tikzpicture}
   \path (0,0) node [anchor=south west] {
     \begin{adjustbox}{width=\textwidth-0\baselineskip}
-      \includegraphics[width=\textwidth]{kstack/sys-tcp-mpinput-rev-single.eps}
+      \includegraphics[width=\textwidth]{kstack/sys-tcp-mpinput-rev-single.pdf}
     \end{adjustbox}
   };
   \path[ellipse,black,thick]
@@ -800,9 +806,14 @@
 \end{tikzpicture}
 \end{frame}
 
-%\subsection{TCP Receive Parallel Stream, Socket Lock per Thread}
-%\begin{frame}{TCP Receive Parallel Stream, Socket Lock per Thread}
-%    \includegraphics[width=\textwidth]{kstack/sys-tcp-input-parallel-rev-parallel.pdf}
-%\end{frame}
+\subsection{TCP Receive Parallel Stream, Socket Lock per Thread}
+\begin{frame}{TCP Receive Parallel Stream, Socket Lock per Thread}
+    \includegraphics[width=\textwidth]{kstack/sys-tcp-input-parallel-rev-parallel.pdf}
+\end{frame}
+
+\subsection{New 100 Gbit/sec Hardare}
+\begin{frame}{New 100 Gbit/sec Hardare, from 2024}
+    \includegraphics[height=0.8\textheight]{images/obsdlab-netlink-ot41.pdf}
+\end{frame}
 
 \end{document}
