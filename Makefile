@@ -81,15 +81,20 @@ kstack/${p:C/[:.]/-/g}-$d-$n.eps: kstack/${p:C/[:.]/-/g}-$d-$n.svg
 .endfor
 .endfor
 
-.for i in obsdlab-perform-ot14 obsdlab-netlink-ot41
+.for i in obsdlab-perform-ot14 obsdlab-netlink-ot41 \
+    netlink-latest-chrome netlink-ice-firefox
 
 OTHER +=		${i:S,^,images/,:S,$,.pdf,}
 
+.if exists(images/$i.jpg)
 images/$i.pdf: images/$i.jpg
 	convert images/$i.jpg images/$i.pdf 
+.endif
 
-images/$i.eps: images/$i.jpg
-	convert images/$i.jpg images/$i.eps 
+.if exists(images/$i.png)
+images/$i.pdf: images/$i.png
+	convert images/$i.png images/$i.pdf 
+.endif
 
 .endfor
 

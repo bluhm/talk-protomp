@@ -811,9 +811,37 @@
     \includegraphics[width=\textwidth]{kstack/sys-tcp-input-parallel-rev-parallel.pdf}
 \end{frame}
 
+\section{Speed}
+
 \subsection{New 100 Gbit/sec Hardare}
 \begin{frame}{New 100 Gbit/sec Hardare, from 2024}
     \includegraphics[height=0.8\textheight]{images/obsdlab-netlink-ot41.pdf}
+\end{frame}
+
+\subsection{Daily Results}
+\begin{frame}{Daily Results}
+    \includegraphics[height=0.8\textheight]{images/netlink-latest-chrome.pdf}
+\end{frame}
+
+\subsection{Test Matrix}
+\begin{frame}{Test Matrix}
+\begin{itemize}
+    \item network hardware and driver\\
+	bge bnxt em ice igc ix ixl re vio (vmx)
+    \item modify network setup\\
+	jumbo nolro nopf notso
+    \item stack pseudo devices\\
+	bridge carp gif gif6 gre veb vlan vxlan wg
+    \item 93 test cases\\
+	icmp tcp udp splice mcast iperf (trex)
+    \item various platforms\\
+	Intel AMD vmm-vmd KVM-qemu AMD-SEV (sparc64) (vmware)
+\end{itemize}
+\end{frame}
+
+\subsection{Interface Throughput}
+\begin{frame}{Daily Results}
+    \includegraphics[height=0.8\textheight]{images/netlink-ice-firefox.pdf}
 \end{frame}
 
 \end{document}
