@@ -840,8 +840,47 @@
 \end{frame}
 
 \subsection{Interface Throughput}
-\begin{frame}{Daily Results}
+\begin{frame}{Interface Throughput}
     \includegraphics[height=0.8\textheight]{images/netlink-ice-firefox.pdf}
+\end{frame}
+
+\subsection{TCP Segmentation Offload}
+\begin{frame}{TCP Segmentation Offload, TSO}
+\begin{itemize}
+    \item Large Receive Offload, LRO
+    \begin{itemize}
+	\item hardware support\\
+	    ix vio vmx
+	\item software implementation, easy to expand\\
+	    ice ixl
+    \end{itemize}
+    \item TCP Send Offload, TSO
+    \begin{itemize}
+	\item hardware support\\
+	    bnxt em iavf ice igc ix ixl vio vmx
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{genugate}
+\begin{frame}{genugate Socket Splicing}
+\begin{tabular}{cc}
+	\begin{minipage}{.6\linewidth}
+	    \includegraphics[height=0.8\textheight]{images/10vs11-dev.pdf}
+	\end{minipage}
+    &
+	\begin{minipage}{.3\linewidth}
+	    \small
+	    \begin{tabular}{c|c}
+		genugate   & OpenBSD \\
+		\hline
+		11.3       & 7.7 Oct 2025 \\
+		11.0       & 7.5 Apr 2024 \\
+		10.0       & 6.6 Oct 2019 \\
+	    \end{tabular}
+	\end{minipage}
+    \\
+\end{tabular}
 \end{frame}
 
 \end{document}

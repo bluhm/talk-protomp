@@ -81,8 +81,14 @@ kstack/${p:C/[:.]/-/g}-$d-$n.eps: kstack/${p:C/[:.]/-/g}-$d-$n.svg
 .endfor
 .endfor
 
+
+images/10vs11-dev.svg:
+	cd images && \
+	    ftp https://obsd-lab.genua.de/tmp/10vs11-dev.svg
+
 .for i in obsdlab-perform-ot14 obsdlab-netlink-ot41 \
-    netlink-latest-chrome netlink-ice-firefox
+    netlink-latest-chrome netlink-ice-firefox \
+    10vs11-dev
 
 OTHER +=		${i:S,^,images/,:S,$,.pdf,}
 
@@ -94,6 +100,11 @@ images/$i.pdf: images/$i.jpg
 .if exists(images/$i.png)
 images/$i.pdf: images/$i.png
 	convert images/$i.png images/$i.pdf 
+.endif
+
+.if exists(images/$i.svg)
+images/$i.pdf: images/$i.svg
+	cd ${@:H} && inkscape --export-type=pdf $i.svg
 .endif
 
 .endfor
