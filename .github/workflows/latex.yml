@@ -13,7 +13,10 @@ jobs:
 
     steps:
     - name: Install packages
-      run: sudo apt-get -y install texlive-latex-recommended texlive-latex-extra tikzit
+      run: |
+        sudo apt-get update
+        sudo apt-get -y update
+        sudo apt-get -y install texlive-latex-recommended texlive-latex-extra tikzit
     - name: Checkout sources
       uses: actions/checkout@v4
     - name: Make build
