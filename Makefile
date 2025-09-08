@@ -86,9 +86,13 @@ images/10vs11-dev.svg:
 	cd images && \
 	    ftp https://obsd-lab.genua.de/tmp/10vs11-dev.svg
 
+images/66vscur.svg:
+	cd images && \
+	    ftp https://obsd-lab.genua.de/tmp/66vscur.svg
+
 .for i in obsdlab-perform-ot14 obsdlab-netlink-ot41 \
     netlink-latest-chrome netlink-ice-firefox \
-    10vs11-dev
+    66vscur
 
 OTHER +=		${i:S,^,images/,:S,$,.pdf,}
 

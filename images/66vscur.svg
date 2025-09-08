@@ -39,7 +39,7 @@
 	  <feComposite in='SourceGraphic' in2='grey' operator='atop'/>
 	</filter>
 </defs>
-<g fill="none" color="white" stroke="black" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+<g fill="none" color="white" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
@@ -294,52 +294,52 @@
 	<path stroke='black'  d='M64.14,54.01 L64.14,422.40 L574.82,422.40 L574.82,54.01 L64.14,54.01 Z  '/></g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(19.18,238.21) rotate(270)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >GBit / Sekunde</tspan></text>
+		<text><tspan font-family="Arial" >GBit / Second</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(319.48,471.30)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >TCP Verbindungen</tspan></text>
+		<text><tspan font-family="Arial" >TCP Connections</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
-	<g id="Performance_plot_1" ><title>ohne genugate</title>
+	<g id="Performance_plot_1" ><title>Linux direct</title>
 <g fill="none" color="white" stroke="currentColor" stroke-width="4.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="4.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(347.07,21.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >ohne genugate</tspan></text>
+	<g transform="translate(355.46,21.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >Linux direct</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="4.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb( 78, 154,   6)'  d='M355.46,18.00 L398.02,18.00 M110.57,245.86 L156.99,89.06 L203.42,80.04 L249.84,66.43 L296.27,68.15 L342.69,81.01
+	<path stroke='rgb( 78, 154,   6)'  d='M363.85,18.00 L406.41,18.00 M110.57,245.86 L156.99,89.06 L203.42,80.04 L249.84,66.43 L296.27,68.15 L342.69,81.01
 		L389.12,60.82 L435.54,80.73 L481.97,60.36 L528.39,57.43  '/></g>
 	</g>
-	<g id="Performance_plot_2" ><title>Entwicklung</title>
+	<g id="Performance_plot_2" ><title>OpenBSD 7.8</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="4.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(347.07,39.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >Entwicklung</tspan></text>
+	<g transform="translate(355.46,39.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >OpenBSD 7.8</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="4.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(164,   0,   0)'  d='M355.46,36.00 L398.02,36.00 M110.57,267.29 L156.99,258.66 L203.42,126.39 L249.84,105.43 L296.27,99.44 L342.69,76.11
+	<path stroke='rgb(164,   0,   0)'  d='M363.85,36.00 L406.41,36.00 M110.57,267.29 L156.99,258.66 L203.42,126.39 L249.84,105.43 L296.27,99.44 L342.69,76.11
 		L389.12,119.58 L435.54,77.36 L481.97,108.69 L528.39,82.78  '/></g>
 	</g>
-	<g id="Performance_plot_3" ><title>genugate 11.0</title>
+	<g id="Performance_plot_3" ><title>OpenBSD 7.5</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="4.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(515.48,21.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >genugate 11.0</tspan></text>
+		<text><tspan font-family="Arial" >OpenBSD 7.5</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="4.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='rgb( 92,  53, 102)'  d='M523.87,18.00 L566.43,18.00 M110.57,386.54 L156.99,366.31 L203.42,342.45 L249.84,344.29 L296.27,345.72 L342.69,337.79
 		L389.12,338.95 L435.54,338.50 L481.97,335.48 L528.39,336.43  '/></g>
 	</g>
-	<g id="Performance_plot_4" ><title>genugate 10.0</title>
+	<g id="Performance_plot_4" ><title>OpenBSD 6.6</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="4.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(515.48,39.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >genugate 10.0</tspan></text>
+		<text><tspan font-family="Arial" >OpenBSD 6.6</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="4.00" stroke-linecap="butt" stroke-linejoin="miter">
