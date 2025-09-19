@@ -81,6 +81,10 @@ kstack/${p:C/[:.]/-/g}-$d-$n.eps: kstack/${p:C/[:.]/-/g}-$d-$n.svg
 .endfor
 .endfor
 
+OTHER +=		kstack/trex-http-simple.pdf
+
+kstack/trex-http-simple.pdf: kstack/trex-http-simple.svg
+	cd ${@:H} && inkscape --export-type=pdf ${@:T:R}.svg
 
 images/10vs11-dev.svg:
 	cd images && \
